@@ -1,12 +1,14 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MJ_PlayerController : MonoBehaviour
 {
     public static MJ_PlayerController Instance; void Awake() => Instance = this;
 
+    [Header("Player Data, feel free to change")]
     [SerializeField]
-    private float _speed = 5f, interactionDistance = 5f, sneakSpeed = 2.5f ;
+    private float _speed = 5f, interactionDistance = 5f, sneakSpeed = 2.5f, jumpForce = 5f;
 
     float horizontal, vertical, promptTime = 3f, elapsedTime, distToNearestInteractable;
 
@@ -25,10 +27,16 @@ public class MJ_PlayerController : MonoBehaviour
     public bool isSneak;
 
     
+    
+    // new shit
+    
+    public InputAction jumpAction;
+    
 
 
     void Start()
     {
+        jumpAction = InputSystem.actions.FindAction("Jump");   
         rb = GetComponent<Rigidbody>();
         _cam = Camera.main;
         promptIsShowing = false;
