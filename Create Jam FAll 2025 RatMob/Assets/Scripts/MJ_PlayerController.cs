@@ -6,7 +6,7 @@ public class MJ_PlayerController : MonoBehaviour
     public static MJ_PlayerController Instance; void Awake() => Instance = this;
 
     [SerializeField]
-    private float _speed = 5f, interactionDistance = 5f;
+    private float _speed = 5f, interactionDistance = 5f, sneakSpeed = 2.5f ;
 
     float horizontal, vertical, promptTime = 3f, elapsedTime, distToNearestInteractable;
 
@@ -22,8 +22,9 @@ public class MJ_PlayerController : MonoBehaviour
     private string prompt;
     private Iinteractable nearestIinteractable = null;
     private Collider nearestHit;
+    public bool isSneak;
 
-    public Vector3 ExposedMoveDir;
+    
 
 
     void Start()
@@ -39,10 +40,19 @@ public class MJ_PlayerController : MonoBehaviour
     {
         PlayerYawToCamAlign();
         Vector3 dir = UpdateInputAndDirection();
-        ExposedMoveDir = dir;
+        
 
         // Apply constant horizontal velocity
-        rb.linearVelocity = new Vector3(dir.x * _speed, rb.linearVelocity.y, dir.z * _speed);
+        if (isSneak)
+        {
+            rb.linearVelocity = new Vector3(dir.x * sneakSpeed, rb.linearVelocity.y, dir.z * sneakSpeed);    
+        }
+        else
+        {
+            rb.linearVelocity = new Vector3(dir.x * _speed, rb.linearVelocity.y, dir.z * _speed);
+        }
+        
+        
 
         if (!promptIsShowing)
         {
