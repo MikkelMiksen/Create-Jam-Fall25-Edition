@@ -6,3 +6,8 @@ public interface Iinteractable
     public string GetPrompt();
     
 }
+
+public interface IPickupAble
+{
+    public object PickUp();
+}

@@ -1,18 +1,25 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Item : MonoBehaviour, IUsable
+public class Item : MonoBehaviour, Iinteractable, IPickupAble
 {
    [SerializeField] public Image image;
    [SerializeField] public ItemType type;
-    
-        
-    
 
-    public void Use()
-    {
-        
-    }
+   public string GetPrompt()
+   {
+       return "Press [insert button] to steal";
+   }
+
+   public void Interact()
+   {
+       
+   }
+
+   public object PickUp()
+   {
+       return this;
+   }
 }
 
 
