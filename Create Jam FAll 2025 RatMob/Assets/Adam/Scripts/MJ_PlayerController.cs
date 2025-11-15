@@ -1,5 +1,6 @@
 using System;
 using TMPro;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -29,7 +30,9 @@ public class MJ_PlayerController : MonoBehaviour
     private string prompt;
     private Iinteractable nearestIinteractable = null;
     private Collider nearestHit;
-    
+    //animator stuff
+
+    public Animator animController;
     
     // movement stuff
     private bool isSneak;
@@ -129,10 +132,18 @@ public class MJ_PlayerController : MonoBehaviour
     {
         if (isSneak)
         {
+            animController.SetBool("Sneak", true);
             rb.linearVelocity = new Vector3(direction.x * _speed * sneakSpeedMultiplier, rb.linearVelocity.y, direction.z * _speed *sneakSpeedMultiplier);    
         }
         else
         {
+            animController.SetBool("Sneak", false);
+            if (direction != Vector3.zero)
+            {
+                animController.SetBool("IsMoving", true);    
+            }
+            
+            
             rb.linearVelocity = new Vector3(direction.x * _speed, rb.linearVelocity.y, direction.z * _speed);
         }
     }
