@@ -132,15 +132,19 @@ public class MJ_PlayerController : MonoBehaviour
     {
         if (isSneak)
         {
-            animController.SetBool("Sneak", true);
+            animController.SetBool("IsSneaking", true);
             rb.linearVelocity = new Vector3(direction.x * _speed * sneakSpeedMultiplier, rb.linearVelocity.y, direction.z * _speed *sneakSpeedMultiplier);    
         }
         else
         {
-            animController.SetBool("Sneak", false);
+            animController.SetBool("IsSneaking", false);
             if (direction != Vector3.zero)
             {
                 animController.SetBool("IsMoving", true);    
+            }
+            else
+            {
+                animController.SetBool("IsMoving", false);
             }
             
             
@@ -230,7 +234,8 @@ public class MJ_PlayerController : MonoBehaviour
         // transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, 10f * Time.deltaTime);
         
         
-      //  transform.rotation = Quaternion.Euler(0f, _cam.transform.eulerAngles.y, 0f);
+        transform.rotation = Quaternion.Euler(0f, _cam.transform.eulerAngles.y, 0f);
+      
     }
 
     Vector3 UpdateInputAndDirection()

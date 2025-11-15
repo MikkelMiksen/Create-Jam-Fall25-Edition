@@ -1070,7 +1070,7 @@ MonoBehaviour:
   jumpForce: 5
   sneakSpeedMultiplier: 0.932
   promptDisplay: {fileID: 1894814353}
-  animController: {fileID: 0}
+  animController: {fileID: 963515356}
   SneakAction:
     m_Name: Sneak
     m_Type: 0
