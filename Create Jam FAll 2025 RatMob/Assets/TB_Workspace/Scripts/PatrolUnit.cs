@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NUnit.Framework.Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -103,7 +104,11 @@ public class PatrolUnit : Entity
     void SetNextDestination()
     {
         if (route.Count == 0) return;
-        agent.SetDestination(route[currentIndex].position);
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(route[currentIndex].position, out hit, 5.0f, NavMesh.AllAreas))
+        {
+            agent.SetDestination(hit.position);
+        } return;
     }
 
     void HandleAnimation()

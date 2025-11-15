@@ -1,9 +1,21 @@
 fileFormatVersion: 2
 guid: db9729dac77382941aa734166e208e87
+AssetOrigin:
+  serializedVersion: 1
+  productId: 330002
+  packageName: Furniture Mega Pack - Free
+  packageVersion: 1.0
+  assetPath: Assets/Furniture Mega Pack/FBX/Table/Table01.fbx
+  uploadId: 785398
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mat_Table01
+    second: {fileID: -341185561697298599, guid: e4cd39fefb28ea546808391910453471, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -105,10 +117,3 @@ ModelImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 330002
-  packageName: Furniture Mega Pack - Free
-  packageVersion: 1.0
-  assetPath: Assets/Furniture Mega Pack/FBX/Table/Table01.fbx
-  uploadId: 785398

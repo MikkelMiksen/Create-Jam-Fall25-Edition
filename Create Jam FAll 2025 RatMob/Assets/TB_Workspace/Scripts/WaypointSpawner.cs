@@ -15,8 +15,8 @@ public class WaypointSpawner : MonoBehaviour
 
     void SpawnPrefab()
     {
-        float randomX = Random.Range(-50f, 50f);
-        float randomZ = Random.Range(-50f, 50f);
+        float randomX = Random.Range(-transform.localScale.x*10, transform.localScale.x*10);
+        float randomZ = Random.Range(-transform.localScale.z*10, transform.localScale.z*10);
         Vector3 spawnPos = new Vector3(randomX, 1f, randomZ);
 
         Instantiate(prefabToSpawn, spawnPos, Quaternion.identity);
