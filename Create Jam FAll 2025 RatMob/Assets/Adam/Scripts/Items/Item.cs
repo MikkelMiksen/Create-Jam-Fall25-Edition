@@ -6,10 +6,7 @@ public class Item : MonoBehaviour, Iinteractable, IPickupAble
    [SerializeField] public Image image;
    [SerializeField] public ItemType type;
 
-   public string GetPrompt()
-   {
-       return "Press [insert button] to steal";
-   }
+   public string GetPrompt() => "Press [insert button] to steal";
 
    public void Interact()
    {
