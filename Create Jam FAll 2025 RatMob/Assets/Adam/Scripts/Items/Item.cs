@@ -19,7 +19,7 @@ public class Item : MonoBehaviour, Iinteractable, IPickupAble
    }
 }
 
-
+[System.Serializable]
 public enum ItemType
 {
     // name all items here
