@@ -821,8 +821,18 @@ MonoBehaviour:
   _speed: 5
   interactionDistance: 5
   sneakSpeed: 2.5
+  jumpForce: 5
   promptDisplay: {fileID: 1894814353}
   isSneak: 0
+  jumpAction:
+    m_Name: Jump
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 7b2f0850-2179-416b-ad60-89b2a82e6d89
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
 --- !u!114 &1844234992
 MonoBehaviour:
   m_ObjectHideFlags: 0
