@@ -60,11 +60,11 @@ public class MJ_PlayerController : MonoBehaviour
 
     void Update()
     {
-        HandleActionInput();
-        Jump();
-        
-        PlayerYawToCamAlign();
         direction = UpdateInputAndDirection();
+        Jump();
+        HandleActionInput();
+        PlayerYawToCamAlign();
+        MovePlayer();
         
 
         // Apply constant horizontal velocity
@@ -93,11 +93,7 @@ public class MJ_PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift)){isSneak = true;} else {isSneak = false;}
     }
 
-    private void FixedUpdate()
-    {
-        MovePlayer();
-    }
-
+    
     
     private void Jump()
     {
@@ -219,7 +215,9 @@ public class MJ_PlayerController : MonoBehaviour
     void PlayerYawToCamAlign()
     {
         // Align player yaw with camera yaw
-        transform.rotation = Quaternion.Euler(0f, _cam.transform.eulerAngles.y, 0f);
+        Quaternion targetRot = Quaternion.Euler(0f, _cam.transform.eulerAngles.y, 0f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, 10f * Time.deltaTime);
+        //transform.rotation = Quaternion.Euler(0f, _cam.transform.eulerAngles.y, 0f);
     }
 
     Vector3 UpdateInputAndDirection()

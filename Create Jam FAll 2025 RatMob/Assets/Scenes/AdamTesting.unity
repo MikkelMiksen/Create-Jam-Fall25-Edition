@@ -410,7 +410,7 @@ MonoBehaviour:
   sensitivity: 2
   pitchMin: -30
   pitchMax: 60
-  followSmoothness: 10
+  followSmoothness: 3
   zoomSpeed: 16.65
   minZoomDistance: 2
   maxZoomDistance: 12
@@ -941,7 +941,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!114 &1844234991
