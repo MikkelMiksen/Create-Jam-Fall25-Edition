@@ -30,8 +30,4 @@ public class SceneHandler : MonoBehaviour
         currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex);
     }
-    
-    
-    
-
 }
