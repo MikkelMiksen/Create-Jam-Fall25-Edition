@@ -1,12 +1,19 @@
+using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MJ_PlayerController : MonoBehaviour
 {
     public static MJ_PlayerController Instance; void Awake() => Instance = this;
 
+    [Header("Player Data, feel free to change")] 
+    [SerializeField]private float _speed = 5f;
+    [SerializeField]private float interactionDistance = 5f;
+    [SerializeField]private float jumpForce = 5f;
+
     [SerializeField]
-    private float _speed = 5f, interactionDistance = 5f, sneakSpeed = 2.5f ;
+    [Range(0f, 1f)] private float sneakSpeedMultiplier = 0.5f;
 
     float horizontal, vertical, promptTime = 3f, elapsedTime, distToNearestInteractable;
 
@@ -22,13 +29,28 @@ public class MJ_PlayerController : MonoBehaviour
     private string prompt;
     private Iinteractable nearestIinteractable = null;
     private Collider nearestHit;
-    public bool isSneak;
-
     
-
-
+    
+    // movement stuff
+    private bool isSneak;
+    private bool isGrounded;
+    Vector3 direction;
+    
+    //jump stuff
+    private float _jumpTickdown = 0.2f;
+    private float _jumpTimerReset = 0.2f;
+    private bool _canJump;
+    private bool _pressedJump;
+    
+    //input actions
+    [Header("Input Actions")]
+    private InputAction jumpAction;
+    public InputAction SneakAction;
+ 
     void Start()
     {
+        jumpAction = InputSystem.actions.FindAction("Jump");   
+        SneakAction.Enable();
         rb = GetComponent<Rigidbody>();
         _cam = Camera.main;
         promptIsShowing = false;
@@ -38,22 +60,14 @@ public class MJ_PlayerController : MonoBehaviour
 
     void Update()
     {
+        direction = UpdateInputAndDirection();
+        Jump();
+        HandleActionInput();
         PlayerYawToCamAlign();
-        Vector3 dir = UpdateInputAndDirection();
+        MovePlayer();
         
 
         // Apply constant horizontal velocity
-        if (isSneak)
-        {
-            rb.linearVelocity = new Vector3(dir.x * sneakSpeed, rb.linearVelocity.y, dir.z * sneakSpeed);    
-        }
-        else
-        {
-            rb.linearVelocity = new Vector3(dir.x * _speed, rb.linearVelocity.y, dir.z * _speed);
-        }
-        
-        
-
         if (!promptIsShowing)
         {
             //Locate nearest interactable
@@ -63,6 +77,63 @@ public class MJ_PlayerController : MonoBehaviour
         {
             //show nearest interactable prompt
             ShowPrompt();
+        }
+    }
+
+    private void HandleActionInput()
+    {
+        if (jumpAction.triggered)
+        {
+            _pressedJump = true;
+        }
+        else
+        {
+            _pressedJump = false;
+        }
+        if (Input.GetKey(KeyCode.LeftShift)){isSneak = true;} else {isSneak = false;}
+    }
+
+    
+    
+    private void Jump()
+    {
+        _jumpTickdown -= Time.deltaTime;
+        if(_jumpTickdown <= 0){_canJump = true;}
+        
+        if (isGrounded && _canJump && _pressedJump)
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            _pressedJump = false;
+            _jumpTickdown = _jumpTimerReset;
+        }
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
+    }
+
+    private void OnCollisionExit(Collision other)
+    {
+        if (other.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = false;
+        }
+    }
+
+
+    private void MovePlayer()
+    {
+        if (isSneak)
+        {
+            rb.linearVelocity = new Vector3(direction.x * _speed * sneakSpeedMultiplier, rb.linearVelocity.y, direction.z * _speed *sneakSpeedMultiplier);    
+        }
+        else
+        {
+            rb.linearVelocity = new Vector3(direction.x * _speed, rb.linearVelocity.y, direction.z * _speed);
         }
     }
 
@@ -144,7 +215,11 @@ public class MJ_PlayerController : MonoBehaviour
     void PlayerYawToCamAlign()
     {
         // Align player yaw with camera yaw
-        transform.rotation = Quaternion.Euler(0f, _cam.transform.eulerAngles.y, 0f);
+        // Quaternion targetRot = Quaternion.Euler(0f, _cam.transform.eulerAngles.y, 0f);
+        // transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, 10f * Time.deltaTime);
+        
+        
+      //  transform.rotation = Quaternion.Euler(0f, _cam.transform.eulerAngles.y, 0f);
     }
 
     Vector3 UpdateInputAndDirection()
@@ -166,4 +241,7 @@ public class MJ_PlayerController : MonoBehaviour
         Vector3 dir = (camForward * vertical + camRight * horizontal).normalized;
         return dir;
     }
+    
+    
+    
 }

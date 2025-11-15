@@ -6,8 +6,7 @@ TagManager:
   tags:
   - TriggerBox
   - Trigger
-  - Patrolling
-  - Waypoint
+  - Ground
   layers:
   - Default
   - TransparentFX

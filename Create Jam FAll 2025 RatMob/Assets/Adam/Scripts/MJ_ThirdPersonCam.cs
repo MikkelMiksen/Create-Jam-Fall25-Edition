@@ -34,6 +34,8 @@ public class MJ_ThirdPersonCam : MonoBehaviour
         Vector3 angles = transform.eulerAngles;
         yaw = angles.y;
         pitch = angles.x;
+        //attempt fix
+        targetZoomDistance = offset.magnitude;
     }
 
     void LateUpdate()
@@ -41,15 +43,19 @@ public class MJ_ThirdPersonCam : MonoBehaviour
         HandleRotation();
         HandleZoom();
         // Calculate the new position from offset (based on zoom)
+        
+        Quaternion rotation = Quaternion.Euler(pitch, yaw, 0f);
+       // Vector3 zoomedOffset = rotation * offset.normalized * targetZoomDistance;
+       Vector3 zoomedOffset = rotation * (offset * (targetZoomDistance / offset.magnitude));
+
+        desiredPosition = target.position + zoomedOffset;
+        transform.position = Vector3.Lerp(transform.position, desiredPosition, followSmoothness * Time.deltaTime);
+        transform.LookAt(target.position);
     }
 
     private void FixedUpdate()
     {
-        Quaternion rotation = Quaternion.Euler(pitch, yaw, 0f);
-        Vector3 zoomedOffset = rotation * offset.normalized * targetZoomDistance;
-        desiredPosition = target.position + zoomedOffset;
-        transform.position = Vector3.Lerp(transform.position, desiredPosition, followSmoothness * Time.deltaTime);
-        transform.LookAt(target.position);
+        
     }
 
     void HandleRotation()
