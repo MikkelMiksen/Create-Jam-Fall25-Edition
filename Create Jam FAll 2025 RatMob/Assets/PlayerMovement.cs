@@ -36,12 +36,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePlayer()
     {
-        
-        
         rb.linearVelocity = moveDir * movementSpeed;
-        
-        
        print("linveloc: " + rb.linearVelocity);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Trigger"))
+        {
+            TriggerBox triggerBox = other.gameObject.GetComponent<TriggerBox>();
+            if (triggerBox.triggerType == TriggerType.LevelChangeTrigger)
+            {
+                SceneHandler.instance.LoadScene(triggerBox.sceneIndexToLoad);
+            }
+        }
     }
 }
 
@@ -56,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-
+// unused struct
 public struct PlayerData
 {
     public PlayerData(float moveSpeed, float jumpForce)
