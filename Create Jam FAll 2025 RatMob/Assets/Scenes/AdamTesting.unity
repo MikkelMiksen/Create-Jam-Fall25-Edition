@@ -614,6 +614,7 @@ GameObject:
   - component: {fileID: 1844234990}
   - component: {fileID: 1844234989}
   - component: {fileID: 1844234991}
+  - component: {fileID: 1844234992}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -822,6 +823,19 @@ MonoBehaviour:
   sneakSpeed: 2.5
   promptDisplay: {fileID: 1894814353}
   isSneak: 0
+--- !u!114 &1844234992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1844234984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3afc09e2a3f302a479dfb5ce80a491e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  items: []
 --- !u!1 &1894814351
 GameObject:
   m_ObjectHideFlags: 0
