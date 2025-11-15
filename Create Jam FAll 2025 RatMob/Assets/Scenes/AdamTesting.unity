@@ -275,7 +275,7 @@ MonoBehaviour:
   pitchMin: -30
   pitchMax: 60
   followSmoothness: 10
-  zoomSpeed: 3
+  zoomSpeed: 16.65
   minZoomDistance: 2
   maxZoomDistance: 12
 --- !u!1 &535852899
@@ -425,7 +425,7 @@ GameObject:
   - component: {fileID: 996281298}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -728,7 +728,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 1844234990}
   movementSpeed: 10
-  jumpForce: 10
+  jumpForce: 26.79
   velocityLimit: 5
   moveInput:
     m_Name: Move Input
@@ -818,12 +818,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 964ceb9b086d6154d8d4ba374b887f1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 5
+  _speed: 20
   interactionDistance: 5
-  sneakSpeed: 2.5
   jumpForce: 5
+  sneakSpeedMultiplier: 0.932
   promptDisplay: {fileID: 1894814353}
   isSneak: 0
+  isGrounded: 0
   jumpAction:
     m_Name: Jump
     m_Type: 0
@@ -832,6 +833,23 @@ MonoBehaviour:
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
+    m_Flags: 0
+  SneakAction:
+    m_Name: Sneak
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 0fd2d37a-9c8d-48d5-bd0b-a1cb28da5e27
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 54df33e2-0b3a-4630-80b2-0a380b27b8f8
+      m_Path: <Keyboard>/shift
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Sneak
+      m_Flags: 0
     m_Flags: 0
 --- !u!114 &1844234992
 MonoBehaviour:

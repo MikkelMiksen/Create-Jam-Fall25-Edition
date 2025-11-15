@@ -6,6 +6,7 @@ TagManager:
   tags:
   - TriggerBox
   - Trigger
+  - Ground
   layers:
   - Default
   - TransparentFX
