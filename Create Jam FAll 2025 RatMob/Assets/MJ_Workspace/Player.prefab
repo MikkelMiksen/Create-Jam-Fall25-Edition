@@ -46,23 +46,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 3598193793894038547}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 964ceb9b086d6154d8d4ba374b887f1d, type: 3}
+  m_Script: {fileID: 11500000, guid: 8715b48fbd6c94344a230c06147bd737, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 5
   interactionDistance: 5
-  jumpForce: 5
-  sneakSpeedMultiplier: 0.5
   promptDisplay: {fileID: 0}
-  SneakAction:
-    m_Name: Sneak
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: b7f80e6f-2432-4cc9-bfe2-aec59fc4b635
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
 --- !u!114 &668249731369056349
 MonoBehaviour:
   m_ObjectHideFlags: 0

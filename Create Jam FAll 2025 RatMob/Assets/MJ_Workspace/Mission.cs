@@ -4,19 +4,20 @@ using UnityEngine;
 [System.Serializable]
 public class Mission
 {
-    public string missionTitle;
-    public string[] dialogues;
+    public string title;
+    public string[] dialogues; // used for Don's introduction
     public Dictionary<ItemType, int> requiredItems;
+    public names deliverTo;
 
-    public names deliverTo;   // 🔥 NEW: Who the items must be delivered to
-
-    public bool isCompleted = false;
-
-    public Mission(string title, string[] dialogues, Dictionary<ItemType, int> req, names deliverTo)
+    // State flags
+    public bool started = false;        // set when Don first gives the mission (intro begun)
+    public bool introComplete = false;  // set when Don's introduction dialogue is finished
+    public bool isCompleted = false;    // set when required items are delivered
+    public Mission(string title, string[] dialogues, Dictionary<ItemType,int> req, names deliverTo)
     {
-        missionTitle = title;
+        this.title = title;
         this.dialogues = dialogues;
-        requiredItems = req;
+        this.requiredItems = req;
         this.deliverTo = deliverTo;
     }
 }

@@ -1,20 +1,12 @@
-using System;
 using TMPro;
-using UnityEditor.Animations;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class MJ_PlayerController : MonoBehaviour
 {
     public static MJ_PlayerController Instance; void Awake() => Instance = this;
 
-    [Header("Player Data, feel free to change")] 
-    [SerializeField]private float _speed = 5f;
-    [SerializeField]private float interactionDistance = 5f;
-    [SerializeField]private float jumpForce = 5f;
-
     [SerializeField]
-    [Range(0f, 1f)] private float sneakSpeedMultiplier = 0.5f;
+    private float _speed = 5f, interactionDistance = 5f;
 
     float horizontal, vertical, promptTime = 3f, elapsedTime, distToNearestInteractable;
 
@@ -30,37 +22,11 @@ public class MJ_PlayerController : MonoBehaviour
     private string prompt;
     private Iinteractable nearestIinteractable = null;
     private Collider nearestHit;
-    //animator stuff
 
-    public Animator animController;
-    public Transform ModelTransform;
-    
-    // movement stuff
-    private bool isSneak;
-    private bool isGrounded;
-    Vector3 direction;
-    
-    //jump stuff
-    private float _jumpTickdown = 0.2f;
-    private float _jumpTimerReset = 0.2f;
-    private bool _canJump;
-    private bool _pressedJump;
-    
-    //input actions
-    [Header("Input Actions")]
-    private InputAction jumpAction;
-    public InputAction SneakAction;
-    private float baseModelOffset;
- 
-    // cam
-    
-    public Camera Camera;
-    
+
+
     void Start()
     {
-        baseModelOffset = ModelTransform.position.y;
-        jumpAction = InputSystem.actions.FindAction("Jump");   
-        SneakAction.Enable();
         rb = GetComponent<Rigidbody>();
         _cam = Camera.main;
         promptIsShowing = false;
@@ -70,14 +36,12 @@ public class MJ_PlayerController : MonoBehaviour
 
     void Update()
     {
-        direction = UpdateInputAndDirection();
-        Jump();
-        HandleActionInput();
         PlayerYawToCamAlign();
-        MovePlayer();
-        
+        Vector3 dir = UpdateInputAndDirection();
 
         // Apply constant horizontal velocity
+        rb.linearVelocity = new Vector3(dir.x * _speed, rb.linearVelocity.y, dir.z * _speed);
+
         if (!promptIsShowing)
         {
             //Locate nearest interactable
@@ -88,84 +52,6 @@ public class MJ_PlayerController : MonoBehaviour
             //show nearest interactable prompt
             ShowPrompt();
         }
-        
-    }
-
-    private void HandleActionInput()
-    {
-        if (jumpAction.triggered)
-        {
-            _pressedJump = true;
-        }
-        else
-        {
-            _pressedJump = false;
-        }
-        if (Input.GetKey(KeyCode.LeftShift)){isSneak = true;} else {isSneak = false;}
-        print("it is: " + isSneak);
-    }
-
-    
-    
-    private void Jump()
-    {
-        _jumpTickdown -= Time.deltaTime;
-        if(_jumpTickdown <= 0){_canJump = true;}
-        
-        if (isGrounded && _canJump && _pressedJump)
-        {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            _pressedJump = false;
-            _jumpTickdown = _jumpTimerReset;
-        }
-    }
-
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = true;
-        }
-    }
-
-    private void OnCollisionExit(Collision other)
-    {
-        if (other.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = false;
-        }
-    }
-
-    [SerializeField] private float modelOffsetvalue;
-    private void MovePlayer()
-    {
-        if (direction.magnitude < 0.1f)
-        {
-            animController.SetBool("IsMoving", false);
-            rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, 0f);
-            return;
-        }
-
-        animController.SetBool("IsMoving", true);
-
-        // Movement: use direction vector directly (world space), NOT ModelTransform.TransformDirection
-        Vector3 move = direction * _speed;
-        if (isSneak)
-        {
-            animController.SetBool("IsSneaking", true);
-            move *= sneakSpeedMultiplier;
-        }
-        if (!isSneak)
-        {
-            animController.SetBool("IsSneaking", false);
-        }
-
-        // Keep Y velocity (gravity / jump)
-        rb.linearVelocity = new Vector3(move.x, rb.linearVelocity.y, move.z);
-
-        // Smoothly rotate model to face movement direction (not camera)
-        Quaternion targetRotation = Quaternion.LookRotation(direction);
-        ModelTransform.rotation = Quaternion.Slerp(ModelTransform.rotation, targetRotation, 12f * Time.deltaTime);
     }
 
 
@@ -245,12 +131,8 @@ public class MJ_PlayerController : MonoBehaviour
 
     void PlayerYawToCamAlign()
     {
-        float camYaw = Camera.GetComponent<ThirdPersonCamera>().playerYawEuler.y;
-
-        
-        Quaternion targetRotation = Quaternion.Euler(0f, camYaw, 0f);
-        ModelTransform.rotation = targetRotation;
-
+        // Align player yaw with camera yaw
+        transform.rotation = Quaternion.Euler(0f, _cam.transform.eulerAngles.y, 0f);
     }
 
     Vector3 UpdateInputAndDirection()
@@ -272,7 +154,4 @@ public class MJ_PlayerController : MonoBehaviour
         Vector3 dir = (camForward * vertical + camRight * horizontal).normalized;
         return dir;
     }
-    
-    
-    
 }
