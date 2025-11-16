@@ -1092,7 +1092,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 20
   interactionDistance: 5
-  jumpForce: 5
+  jumpForce: 10
   sneakSpeedMultiplier: 0.932
   promptDisplay: {fileID: 1894814353}
   animController: {fileID: 963515356}
