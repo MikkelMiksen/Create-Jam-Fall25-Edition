@@ -268,6 +268,7 @@ GameObject:
   - component: {fileID: 94887673}
   - component: {fileID: 94887676}
   - component: {fileID: 94887677}
+  - component: {fileID: 94887678}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -342,8 +343,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 94887672}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.28225973, y: -0, z: -0, w: 0.95933807}
-  m_LocalPosition: {x: 0, y: 11.43, z: -13.71}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 4.7799997, z: -4.58}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -400,7 +401,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 94887672}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6e1c3d057e7daf64da7f426661ba4fca, type: 3}
   m_Name: 
@@ -414,6 +415,30 @@ MonoBehaviour:
   zoomSpeed: 16.65
   minZoomDistance: 2
   maxZoomDistance: 12
+--- !u!114 &94887678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 94887672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe26c1dbd54c38f47a3fac75f7135e71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1844234988}
+  mouseSensitivity: 6
+  invertY: 0
+  minPitch: 0
+  maxPitch: 339.8
+  startYaw: 0
+  startPitch: 0
+  offset: {x: 0, y: 1.8, z: -4}
+  positionSmoothTime: 0.1
+  rotationSmoothSpeed: 10
+  lockCursor: 1
+  playerYawEuler: {x: 0, y: 0, z: 0}
 --- !u!1001 &394625123
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -968,7 +993,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1844234984}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 460c04998a554364cb1446274435caf3, type: 3}
   m_Name: 
@@ -1071,6 +1096,7 @@ MonoBehaviour:
   sneakSpeedMultiplier: 0.932
   promptDisplay: {fileID: 1894814353}
   animController: {fileID: 963515356}
+  ModelTransform: {fileID: 963515357}
   SneakAction:
     m_Name: Sneak
     m_Type: 0
@@ -1088,6 +1114,8 @@ MonoBehaviour:
       m_Action: Sneak
       m_Flags: 0
     m_Flags: 0
+  Camera: {fileID: 94887674}
+  modelOffsetvalue: 0
 --- !u!114 &1844234992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1095,7 +1123,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1844234984}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3afc09e2a3f302a479dfb5ce80a491e2, type: 3}
   m_Name: 
