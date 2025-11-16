@@ -35,7 +35,7 @@ public class GoalDisplayer : MonoBehaviour
 
         if (!missionGiver.missionInProgress)
         {
-            missionText.text = "Goal: ";
+            missionText.text = "Goal: Find 5 Cheese";
             return;
         }
 

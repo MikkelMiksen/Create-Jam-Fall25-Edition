@@ -5,7 +5,10 @@ using UnityEngine;
 public class MJ_InventoryHandler : MonoBehaviour
 {
     //Used to reference the inventory globally
-    public static MJ_InventoryHandler Instance; void Awake() { Instance = this; }
+    public static MJ_InventoryHandler Instance; void Awake() 
+    { 
+        Instance = this;
+    }
 
     [SerializeField] private TextMeshProUGUI textMesh;
     public ItemType itemToDisplay;

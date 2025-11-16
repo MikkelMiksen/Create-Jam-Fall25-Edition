@@ -3,10 +3,16 @@ using UnityEngine;
 
 public class MJ_PlayerController : MonoBehaviour
 {
-    public static MJ_PlayerController Instance; void Awake() => Instance = this;
+    public static MJ_PlayerController Instance; 
+    void Awake() => Instance = this;
 
     [SerializeField]
     private float _speed = 5f, interactionDistance = 5f;
+
+    [Header("Jump Settings")]
+    [SerializeField] private float jumpForce = 6f;
+    [SerializeField] private float groundCheckDistance = 0.25f;
+    [SerializeField] private LayerMask groundMask;
 
     float horizontal, vertical, promptTime = 3f, elapsedTime, distToNearestInteractable;
 
@@ -18,10 +24,13 @@ public class MJ_PlayerController : MonoBehaviour
 
     private Vector3 camForward, camRight;
     private bool promptIsShowing = false;
+    private bool isGrounded;
 
     private string prompt;
     private Iinteractable nearestIinteractable = null;
     private Collider nearestHit;
+
+    public Animator animator;
 
 
 
@@ -42,18 +51,50 @@ public class MJ_PlayerController : MonoBehaviour
         // Apply constant horizontal velocity
         rb.linearVelocity = new Vector3(dir.x * _speed, rb.linearVelocity.y, dir.z * _speed);
 
+        // --- Ground check + Jump ---
+        CheckGrounded();
+        HandleJump();
+
+        // Interaction logic
         if (!promptIsShowing)
         {
-            //Locate nearest interactable
             PromptNotShowing();
         }
         else
         {
-            //show nearest interactable prompt
             ShowPrompt();
+        }
+
+        // Animator movement speed
+        if (animator != null)
+            animator.SetFloat("Speed", new Vector3(dir.x, 0, dir.z).magnitude);
+    }
+
+
+    // ---------------- JUMP SYSTEM ----------------
+
+    void CheckGrounded()
+    {
+        isGrounded = Physics.Raycast(transform.position + Vector3.up * 0.1f,
+                                    Vector3.down,
+                                    groundCheckDistance,
+                                    groundMask);
+    }
+
+    void HandleJump()
+    {
+        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+        {
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
+
+            if (animator != null)
+                animator.SetTrigger("Jump");
         }
     }
 
+
+
+    // ---------------- INTERACTION SYSTEM ----------------
 
     void PromptNotShowing()
     {
@@ -95,9 +136,11 @@ public class MJ_PlayerController : MonoBehaviour
     void ShowPrompt()
     {
         elapsedTime += Time.deltaTime;
-        if (elapsedTime <= promptTime && nearestIinteractable != null && Vector3.Distance(transform.position,nearestHit.transform.position) < interactionDistance)
+        if (elapsedTime <= promptTime && nearestIinteractable != null && 
+            Vector3.Distance(transform.position, nearestHit.transform.position) < interactionDistance)
         {
             promptDisplay.text = prompt;
+
             if (Input.GetKeyDown(KeyCode.E))
             {
                 nearestIinteractable.Interact();
@@ -114,38 +157,34 @@ public class MJ_PlayerController : MonoBehaviour
         }
     }
 
+
     void OnDrawGizmos()
     {
-        if (promptIsShowing)
-        {
-            Gizmos.color = Color.green;
-        }
-        else
-        {
-            Gizmos.color = Color.red;
-        }
+        Gizmos.color = promptIsShowing ? Color.green : Color.red;
         Gizmos.DrawWireSphere(transform.position, interactionDistance);
+
+        // Ground check visualization
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(transform.position + Vector3.up * 0.1f,
+                        transform.position + Vector3.up * 0.1f + Vector3.down * groundCheckDistance);
     }
 
 
+    // ---------------- MOVEMENT SYSTEM ----------------
 
     void PlayerYawToCamAlign()
     {
-        // Align player yaw with camera yaw
         transform.rotation = Quaternion.Euler(0f, _cam.transform.eulerAngles.y, 0f);
     }
 
     Vector3 UpdateInputAndDirection()
     {
-        // Get input
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
 
-        // Build movement direction relative to camera
         camForward = _cam.transform.forward;
         camRight = _cam.transform.right;
 
-        // Flatten to horizontal plane
         camForward.y = 0f;
         camRight.y = 0f;
         camForward.Normalize();
