@@ -12,17 +12,12 @@ public class Sight : MonoBehaviour
   
     public List<Transform> activate()
     {
-
         List<Transform> detected = GetDetectable(Physics.OverlapSphere(transform.position, range));
-       
         for (int i = detected.Count - 1; i >= 0; i--)
         {
-
             Transform target = detected[i];
-
             if (!targetInFOV(target, FOV) || Obstructed(target))
             {
-
                 detected.RemoveAt(i);
             }
         }
@@ -75,3 +70,4 @@ public class Sight : MonoBehaviour
 
     }
 }
+
