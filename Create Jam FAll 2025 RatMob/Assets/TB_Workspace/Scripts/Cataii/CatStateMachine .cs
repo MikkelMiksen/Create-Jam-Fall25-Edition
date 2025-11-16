@@ -12,3 +12,4 @@ public class CatStateMachine : MonoBehaviour
         currentState = newState;
     }
 }
+    
