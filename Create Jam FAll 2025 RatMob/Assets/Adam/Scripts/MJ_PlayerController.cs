@@ -102,6 +102,7 @@ public class MJ_PlayerController : MonoBehaviour
             _pressedJump = false;
         }
         if (Input.GetKey(KeyCode.LeftShift)){isSneak = true;} else {isSneak = false;}
+        print("it is: " + isSneak);
     }
 
     
@@ -149,7 +150,15 @@ public class MJ_PlayerController : MonoBehaviour
 
         // Movement: use direction vector directly (world space), NOT ModelTransform.TransformDirection
         Vector3 move = direction * _speed;
-        if (isSneak) move *= sneakSpeedMultiplier;
+        if (isSneak)
+        {
+            animController.SetBool("IsSneaking", true);
+            move *= sneakSpeedMultiplier;
+        }
+        if (!isSneak)
+        {
+            animController.SetBool("IsSneaking", false);
+        }
 
         // Keep Y velocity (gravity / jump)
         rb.linearVelocity = new Vector3(move.x, rb.linearVelocity.y, move.z);
